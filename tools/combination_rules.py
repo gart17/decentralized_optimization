@@ -39,3 +39,7 @@ def averaging_matrix(G, nodelist=None, weight='weight'):
         np.fill_diagonal(Adj, 1) 
     
     return Adj * (1.0 / np.sum(Adj, axis=0))
+
+
+
+
