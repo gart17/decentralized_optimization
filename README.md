@@ -1,8 +1,11 @@
-# decentralized-tensorflow
-Decentralized optimization framework under TensorFlow. 
+# distributed_optimization
+Distributed optimization framework developed for TensorFlow. 
 
-## Folders
- - __decentralized__: decentralized optimization structures.
- - __notebooks__: early test of functions before moving to the main folder.
- - __tools__: misc tools for network generation, combination rules, inline TensorBoard.
- 
+## Structure
+ - __algorithms__: optimization algorithms
+ - __distributed__: distributed agent structures
+ - __notebooks__: Jupyter Notebooks for early development
+ - __tools__: misc tools
+   - network generation
+   - combination rules
+   - inline TensorBoard
