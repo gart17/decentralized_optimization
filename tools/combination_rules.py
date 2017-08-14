@@ -40,6 +40,23 @@ def averaging_matrix(G, nodelist=None, weight='weight'):
     
     return Adj * (1.0 / np.sum(Adj, axis=0))
 
+def metropolis_matrix(G, nodelist=None): 
+    '''Return the Metropolis matrix of G.
+    
+    '''
+    if nodelist is None:
+        nodelist = list(G)
 
+    Adj = nx.to_scipy_sparse_matrix(G, nodelist=nodelist, 
+        format='csr').toarray()
+    if np.all(np.diag(Adj) == 0):  # add self-loops
+        np.fill_diagonal(Adj, 1) 
 
+    n = nx.number_of_nodes(G)
+    n_neighbor = np.ones((n,1)).dot(np.sum(Adj, axis=0).reshape((1,n)))
+    neighbor_max = np.maximum(n_neighbor, n_neighbor.T)
 
+    A = Adj * (1.0 / neighbor_max)
+    for i in range(n):
+    	A[i, i] = 1 - (np.sum(A[i, :]) - A[i, i])
+    return A
