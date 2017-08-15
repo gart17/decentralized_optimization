@@ -1,11 +1,12 @@
-# Misc Tools
+# Miscellaneous Tools
 
 ## Functions
  - [x] `averaging_matrix`
- - [ ] `metropolis_matrix`
+ - [x] `metropolis_matrix` 
  - [x] `show_tf_graph`
-
+ - [x] `@define_scope`
+ 
 ## Usage
 ```
-from tools import *
+from distributed_optimization.tools import *
 ```
