@@ -3,9 +3,7 @@ Distributed optimization framework developed for TensorFlow.
 
 ## Structure
  - __algorithms__: optimization algorithms
- - __distributed__: distributed agent structures
+ - __structures__: distributed agent structures
+ - __examples__: example models and data
  - __notebooks__: Jupyter Notebooks for early development
- - __tools__: misc tools
-   - network generation
-   - combination rules
-   - inline TensorBoard
+ - __tools__: miscellaneous tools
