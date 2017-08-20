@@ -38,7 +38,7 @@ def averaging_matrix(G, nodelist=None, weight='weight'):
     if np.all(np.diag(Adj) == 0):  # add self-loops
         np.fill_diagonal(Adj, 1) 
     
-    return Adj * (1.0 / np.sum(Adj, axis=0))
+    return Adj * (1.0 / np.sum(Adj, axis=0, keepdims=True))
 
 def metropolis_matrix(G, nodelist=None): 
     '''Return the Metropolis matrix of G.
@@ -53,7 +53,7 @@ def metropolis_matrix(G, nodelist=None):
         np.fill_diagonal(Adj, 1) 
 
     n = nx.number_of_nodes(G)
-    n_neighbor = np.ones((n,1)).dot(np.sum(Adj, axis=0).reshape((1,n)))
+    n_neighbor = np.ones((n,1)).dot(np.sum(Adj, axis=0, keepdims=True))
     neighbor_max = np.maximum(n_neighbor, n_neighbor.T)
 
     A = Adj * (1.0 / neighbor_max)
