@@ -1,3 +1,6 @@
+import numpy as np
+import networkx as nx
+
 def averaging_matrix(G, nodelist=None, weight='weight'):
     '''Return the averaging matrix of G.
     
@@ -30,6 +33,7 @@ def averaging_matrix(G, nodelist=None, weight='weight'):
         Foundations and Trends in Machine Learning: Vol. 7: No. 4-5, p 664. 
         http://dx.doi.org/10.1561/2200000051
     '''
+
     if nodelist is None:
         nodelist = list(G)
         
