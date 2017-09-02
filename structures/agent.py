@@ -16,31 +16,31 @@ class Agent:
 				dataset, 
 				loss_model, 
 				neighbor_weights, # list of weights corr to neighrbors
-				parameters_to_train = 'all',
-				options=None # additional options, eg 'svrg'
-				): 
+				parameters_to_train = 'all'): 
 		self.cluster = cluster
 		self.suffix = '.' + str(agent_index)
-		with tf.name_scope('agent' + self.suffix):
+		with tf.name_scope('agent' + self.suffix) as scope:
+			self.scope = scope
 			self.dataset = dataset
-			self.model = Model(dataset=dataset, 
-					agent_index=agent_index, 
-					loss_model=loss_model, 
-					parameters_to_train=parameters_to_train) 
-		self.neighbor_weights = neighbor_weights  
-		self.options = options
+			self.model = Model(dataset=dataset, loss_model=loss_model) 
+		self.neighbor_weights = neighbor_weights
 		
-		self.gradients = dict() # store gradient values
-		self.cache = None # store cache for certain functions, eg accelerations
+		# Every agent has the following lists of operators,
+		# added by Cluster.set_training 
+		# Cluster.train runs (in sequence or parallely) 
+		# for example, init -> N times (comp -> comm) -> conc 
+		self.initialization = []
+		self.computation = []
+		self.communication = []
+		self.conclusion = []
+		# self.gradients = dict() # store gradient values
+		# self.cache = None # store cache for certain functions, eg accelerations
 	
-	def initialize(self, sess):
-		for _, parameter in self.model.parameters.items():
-			sess.run(parameter.initializer)
+	# def initialize(self, sess):
+	# 	for _, parameter in self.model.parameters.items():
+	# 		sess.run(parameter.initializer)
 	
-	def compute_gradients(self, sess):
-		for name, gradient_op in self.model.gradients.items():
-			self.gradients[name] = sess.run(gradient_op)
-
-	def train(self, sess):
-		pass
+	# def compute_gradients(self, sess):
+	# 	for name, gradient_op in self.model.gradients.items():
+	# 		self.gradients[name] = sess.run(gradient_op)
 		
