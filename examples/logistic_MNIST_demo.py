@@ -25,7 +25,7 @@ c.set_topology(n_agents=5, density=0.6, policy='metropolis')
 c.set_model(datasets=mnist_datasets, loss_model='logistic')
 
 # specify traning parameters
-c.set_training(scheme='diffusion', exact=True, gradient='GD', step_size=0.01)
+c.set_training(scheme='diffusion', exact=True, gradient='GD', step_size=0.01, parameters_to_train='all')
 
 # visualize through TensorBoard
 writer = tf.summary.FileWriter('TensorBoard', sess.graph)

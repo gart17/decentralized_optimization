@@ -24,7 +24,7 @@ class Agent:
 			self.dataset = dataset
 			self.model = Model(dataset=dataset, loss_model=loss_model) 
 		self.neighbor_weights = neighbor_weights
-		
+
 		'''
 		Every agent has the following lists of operators,
 		added by Cluster.set_training 
