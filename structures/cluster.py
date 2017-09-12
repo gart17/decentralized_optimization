@@ -31,12 +31,14 @@ class Cluster:
 
 	def set_training(self, **train):
 		# despite its name, the function adds operators of decentralized optimization to each agent
-
+		# train is a dictionary of training parameters
 		if train['scheme'] == 'diffusion':
+			# train must contain the following:
+			# 
 			from algorithms.diffusion import add_diffusion_operators
 			for agent in self.agents:
 				add_diffusion_operators(agent, train)
-
+		
 		else:
 			print('Decentralized scheme {0} not supported yet.'.format(self.scheme))
 			raise NotImplementedError

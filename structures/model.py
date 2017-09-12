@@ -1,34 +1,31 @@
 import tensorflow as tf
+import decentralized_optimization.models as models
 
 class Model:
 	'''
-	define a loss model
-	it is a wrapper class for functions defined in ..models
+	define the loss model object
+	a wrapper class for functions defined in decentralized_optimizaton.models
 	'''
-	
 	def __init__(self, dataset, loss_model):
 		'''
 		parameters_to_train: list of names, only compute and update these parameters
 		'''
 		self.data = dict()
 		self.parameters = dict()
-		self.loss_model = loss_model
+		self.loss = None
+		# self.loss_model = loss_model
 		self.BATCH_SIZE = 1
 		with tf.name_scope('model'):
 			self.define_model(dataset, loss_model)
-			# self.define_gradients(parameters_to_train)
-			# self.define_descents(step_size)
 
 	def define_model(self, dataset, loss_model):
 		if self.loss_model == 'logistic':
-			from model.logistic import define_logistic_model
+			from models.logistic import define_logistic_model
 			define_logistic_model(model, dataset)
 		else:
 			print('Loss model {0} not supported yet.'.format(loss_model))
 			raise NotImplementedError
 	
-
-
 	# def define_gradients(self, parameters_to_train):
 	# 	with tf.name_scope('gradients'):
 	# 		if parameters_to_train == 'all':

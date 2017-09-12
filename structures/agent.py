@@ -3,7 +3,7 @@ from decentralized_optimization.structures.model import Model
 
 class Agent:
 	'''
-	Holds decentralized operators,
+	Holds decentralized training operators,
 	Execute initialization, gradient descent, 
 	combination etc in the default session
 	
@@ -25,22 +25,15 @@ class Agent:
 			self.model = Model(dataset=dataset, loss_model=loss_model) 
 		self.neighbor_weights = neighbor_weights
 		
-		# Every agent has the following lists of operators,
-		# added by Cluster.set_training 
-		# Cluster.train runs (in sequence or parallely) 
-		# for example, init -> N times (comp -> comm) -> conc 
+		'''
+		Every agent has the following lists of operators,
+		added by Cluster.set_training 
+		in general, Cluster.train runs (in sequence or parallely) 
+		initialization -> N times (computation -> communication) -> conclusion 
+		actual order will be determined inside Cluster.train() function
+		'''
 		self.initialization = []
 		self.computation = []
 		self.communication = []
 		self.conclusion = []
-		# self.gradients = dict() # store gradient values
-		# self.cache = None # store cache for certain functions, eg accelerations
-	
-	# def initialize(self, sess):
-	# 	for _, parameter in self.model.parameters.items():
-	# 		sess.run(parameter.initializer)
-	
-	# def compute_gradients(self, sess):
-	# 	for name, gradient_op in self.model.gradients.items():
-	# 		self.gradients[name] = sess.run(gradient_op)
-		
+

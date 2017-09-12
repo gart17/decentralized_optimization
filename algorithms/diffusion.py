@@ -12,18 +12,17 @@ def add_diffusion_operators(agent, train):
 
 	# Add diffusion operators
 	with tf.name_scope(agent.scope):
-	# Initialization
-		params = agent.model.parameters.values()
-		data = agent.model.parameters.data()
-		if agent. == 'exact_diffusion':
+		params = agent.model.parameters
+		data = agent.model.data
+		if train['scheme'] == 'exact_diffusion':
 			agent.psi = dict()
 			agent.phi = dict()
 			with tf.name_scope('Initialization'):
-				for p in params:
-					agent.initialization.append(p.initializer)	
-				for p in params:
-					agent.initialization.append()
+				opt = tf.train.GradientDescentOptimizer(learning_rate=train['step_size'])
+				for w in params:
+					agent.initialization.append(w.initializer)
+				grads = opt.compute_gradients(agent.model.loss, )
 		else:
-
+			pass
 def train_diffusion(cluster, sess, train):
 	pass
