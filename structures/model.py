@@ -1,5 +1,4 @@
 import tensorflow as tf
-from decentralized_optimization import model
 
 class Model:
 	'''
