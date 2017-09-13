@@ -13,22 +13,36 @@ def add_diffusion_operators(agent, train):
 	# Add diffusion operators
 	with tf.name_scope(agent.scope):
 
-		parameters_to_train = train.get('parameters_to_train', 'all')
 		if train['parameters_to_train'] == 'all':
-			params = agent.model.parameters.values()
+			params = agent.model.parameters
 		else:
-			params = [agent.model.parameters[name] for name in train['parameters_to_train']]
+			params = {name: agent.model.parameters[name] for name in train['parameters_to_train']}
 		data = agent.model.data.values()
-		opt = tf.train.GradientDescentOptimizer(learning_rate=train['step_size'])
+		step = train['step_size']
 
 		if train['scheme'] == 'exact_diffusion':
-			agent.psi = dict()
-			agent.phi = dict()
 			with tf.name_scope('Initialization'):
-				for w in params:
-					agent.initialization.append(w.initializer)
-				grads = opt.compute_gradients(agent.model.loss, params)
+				# agent.psi, agent.psi_past and agent.phi for adaption and correction steps
+				agent.model.psi = {name: tf.Variable(param.initialized_value()) for name, param in params}
+				agent.model.psi_past = {name: tf.Variable(param.initialized_value()) for name, param in params}
+				agent.model.phi = {name: tf.Variable(param.initialized_value()) for name, param in params}
+				# initialize each parameter
+				for name in params.keys():
+					agent.initialization += [params[name].initializer, 
+						agent.model.psi[name].initializer,
+						agent.model.psi_past[name].initializer,
+						agent.model.phi[name].initializer]
+			with tf.name_scope('computation'):
+				# assuming that variables on other agents have been initialized
+				# compute gradients 
+				grads = tf.gradients(agent.model.loss, params.values())
+				# gradient adaption
+				for name in params.keys():
+					agent.computation += [tf.assign(agent.model.psi[name])]
 				
+
+				
+
 		else:
 			pass
 def train_diffusion(cluster, sess, train):

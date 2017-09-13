@@ -16,7 +16,7 @@ class Agent:
 				dataset, 
 				loss_model, 
 				neighbor_weights, # list of weights corr to neighrbors
-				parameters_to_train = 'all'): 
+				): 
 		self.cluster = cluster
 		self.suffix = '.' + str(agent_index)
 		with tf.name_scope('agent' + self.suffix) as scope:
